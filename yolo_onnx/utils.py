@@ -18,6 +18,10 @@ def prepare_input(img, size):
     dh = 0 if (scaled_h % 32) == 0 else 32 - (scaled_h % 32)
     dw = 0 if (scaled_w % 32) == 0 else 32 - (scaled_w % 32)
 
+    # bug fix for yoloV8 (640, 480)
+    dw = 640 - scaled_w if scaled_w <= 640 else 0
+    dh = 480 - scaled_h if scaled_h <= 480 else 0
+
     # Pad
     inp = np.full(
         (scaled_h + dh, scaled_w + dw, 3), 114, dtype=np.float32
